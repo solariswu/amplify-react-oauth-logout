@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import Amplify from "@aws-amplify/core";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Home from "./Components/Home";
+import Landing from "./Components/Landing";
+import Logout from "./Components/Logout";
+
+
+Amplify.configure({
+  Auth: {
+    region: "us-east-1",
+    userPoolId: "us-east-1_FC8kBApuy",
+    userPoolWebClientId: "235qakl0if7b3vss5ikehppnmi",
+    oauth: {
+      domain: "magiclink.auth.us-east-1.amazoncognito.com",
+      scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+      redirectSignIn: "http://localhost:3000/landing/",
+      redirectSignOut: "http://localhost:3000/logout/",
+      responseType: "code", // or 'token', note that REFRESH token will only be generated when the responseType is code
+    },
+  },
+});
+
+class App extends Component {
+  render() {
+    Amplify.Logger.LOG_LEVEL = "VERBOSE";
+
+    // console.log("Your process.env.PUBLIC_URL", process.env.PUBLIC_URL);
+
+    return (
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <Switch>
+          <Route path="/home" component={Home} />
+          <Route path="/landing" component={Landing} />
+          <Route path="/logout" component={Logout} />
+          <Route path="/" component={Home} />
+        </Switch>
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;
