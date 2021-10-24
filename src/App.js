@@ -15,8 +15,8 @@ Amplify.configure({
     oauth: {
       domain: "magiclink.auth.us-east-1.amazoncognito.com",
       scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
-      redirectSignIn: "http://localhost:3000/landing/",
-      redirectSignOut: "http://localhost:3000/logout/",
+      redirectSignIn: "https://amplify-react-oauth-logout.netlify.app/landing/",
+      redirectSignOut: "https://amplify-react-oauth-logout.netlify.app/logout/",
       responseType: "code", // or 'token', note that REFRESH token will only be generated when the responseType is code
     },
   },
